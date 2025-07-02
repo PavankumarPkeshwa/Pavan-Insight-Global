@@ -1,25 +1,25 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
 import Header from "./Components/Header";
+import PostSlider from "./Components/PostSlider";
+import RecentPosts from "./Components/RecentPosts";
+import Sidebar from "./Components/Sidebar";
 import Footer from "./Components/Footer";
-import HomePage from "./Pages/HomePage";
-import CategoryPage from "./Pages/CategoryPage";
-import ArticlePage from "./Pages/ArticlePage";
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/category/:name" element={<CategoryPage />} />
-            <Route path="/article/:id" element={<ArticlePage />} />
-          </Routes>
-        </main>
-        <Footer />
+    <div className="bg-gray-50">
+      <Header />
+      <PostSlider />
+      <div className="container mx-auto flex gap-4 py-6 px-4">
+        <div className="w-3/4">
+          <RecentPosts />
+        </div>
+        <div className="w-1/4">
+          <Sidebar />
+        </div>
       </div>
-    </Router>
+      <Footer />
+    </div>
   );
 };
 
