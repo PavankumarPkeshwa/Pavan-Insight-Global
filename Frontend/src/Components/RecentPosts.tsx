@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const RecentPosts: React.FC = () => {
   const posts = [
@@ -32,14 +33,20 @@ const RecentPosts: React.FC = () => {
                 className="w-40 h-40 object-cover rounded-md mr-4"
               />
               <div>
-                <h3 className="text-lg font-bold">{post.title}</h3>
+                <Link to={`/article/${index}`}>
+                  <h3 className="text-lg font-bold hover:text-teal-600">
+                    {post.title}
+                  </h3>
+                </Link>
                 <p className="text-sm text-gray-600">
                   By {post.author} | {post.date}
                 </p>
                 <p className="text-sm mt-2">{post.description}</p>
-                <button className="mt-2 px-4 py-2 text-white bg-teal-400 rounded-md hover:bg-teal-500">
-                  Read More
-                </button>
+                <Link to={`/article/${index}`}>
+                  <button className="mt-2 px-4 py-2 text-white bg-teal-400 rounded-md hover:bg-teal-500">
+                    Read More
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
