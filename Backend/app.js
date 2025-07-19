@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
 // Routes
-const postRoutes = require("./routes/posts");
+const postRoutes = require("./backend/routes/posts");
 app.use("/api/posts", postRoutes);
 
 // MongoDB Connection
