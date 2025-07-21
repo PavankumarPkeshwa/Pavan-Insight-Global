@@ -1,58 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import type { PostType } from "../types/PostType"; // make sure this exists
+// make sure this exists
 
-const RecentPosts: React.FC = () => {
-  const posts = [
-    {
-      title: "Trump Is Back Trade War",
-      image: "https://via.placeholder.com/200x200",
-      author: "Pavan Kumar",
-      date: "April 6, 2025",
-      description:
-        "Trump is back. Trade war between all the countries has imposed a tax on all the imports.",
-    },
-    {
-      title: "Global Market Updates",
-      image: "https://via.placeholder.com/200x200",
-      author: "Jane Smith",
-      date: "April 4, 2025",
-      description: "Global markets are witnessing unprecedented shifts.",
-    },
-  ];
+const RecentPosts = () => {
+  const [posts, setPosts] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/posts");
+        setPosts(res.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
-    <section className="py-6 px-4">
-      <h2 className="text-2xl font-bold mb-4">Recent Posts</h2>
-      <div className="grid grid-cols-2 gap-6">
-        {posts.map((post, index) => (
-          <div key={index} className="bg-white shadow-lg rounded-lg p-4">
-            <div className="flex">
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-40 h-40 object-cover rounded-md mr-4"
-              />
-              <div>
-                <Link to={`/article/${index}`}>
-                  <h3 className="text-lg font-bold hover:text-teal-600">
-                    {post.title}
-                  </h3>
-                </Link>
-                <p className="text-sm text-gray-600">
-                  By {post.author} | {post.date}
-                </p>
-                <p className="text-sm mt-2">{post.description}</p>
-                <Link to={`/article/${index}`}>
-                  <button className="mt-2 px-4 py-2 text-white bg-teal-400 rounded-md hover:bg-teal-500">
-                    Read More
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {posts.map((post) => (
+        <div key={post._id} className="bg-white rounded shadow p-4">
+          <img src={post.thumbnail} alt="post" className="w-full h-40 object-cover" />
+          <h2 className="text-xl font-semibold mt-2">{post.title}</h2>
+          <p className="text-sm text-gray-600">{post.description}</p>
+          {post.date && (
+            <p className="text-xs text-gray-400 mt-2">
+              {post.author} · {new Date(post.date).toLocaleDateString()}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
   );
 };
 

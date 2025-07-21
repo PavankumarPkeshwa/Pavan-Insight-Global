@@ -41,10 +41,27 @@ const Admin: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Submitted News:", formData);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("http://localhost:5000/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to submit post");
+    }
+
+    const data = await response.json();
+    console.log("Submitted News:", data);
     alert("News post submitted!");
+
+    // Clear form
     setFormData({
       title: "",
       image: "",
@@ -52,7 +69,12 @@ const Admin: React.FC = () => {
       date: "",
       content: "",
     });
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Error submitting post");
+  }
+};
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -125,7 +147,6 @@ const Admin: React.FC = () => {
           onChange={handleInlineImageUpload}
           className="block mb-2"
         />
-
         <button
           type="submit"
           className="bg-teal-500 text-white px-6 py-2 rounded-md hover:bg-teal-600"

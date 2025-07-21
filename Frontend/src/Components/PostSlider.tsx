@@ -1,26 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+type Post = {
+  title: string;
+  thumbnail: string;
+  author: string;
+  date: string;
+};
 
 const PostSlider: React.FC = () => {
-  const posts = [
-    {
-      title: "AI-Powered Robo Advisors",
-      image: "https://via.placeholder.com/300x200",
-      author: "David Lee",
-      date: "April 10, 2025",
-    },
-    {
-      title: "Global Trade Tensions",
-      image: "https://via.placeholder.com/300x200",
-      author: "John Doe",
-      date: "April 5, 2025",
-    },
-    {
-      title: "The Earthquake",
-      image: "https://via.placeholder.com/300x200",
-      author: "Emily Carter",
-      date: "May 1, 2025",
-    },
-  ];
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/posts/slider");
+        setPosts(res.data);
+      } catch (err) {
+        console.error("Failed to load posts", err);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <section className="py-6">
@@ -32,13 +34,14 @@ const PostSlider: React.FC = () => {
             className="min-w-[300px] bg-white shadow-lg rounded-lg p-4"
           >
             <img
-              src={post.image}
+              src={post.thumbnail}
               alt={post.title}
               className="w-full h-40 object-cover rounded-md mb-4"
             />
             <h3 className="text-lg font-bold">{post.title}</h3>
             <p className="text-sm text-gray-600">
-              By {post.author} | {post.date}
+              By {post.author} |{" "}
+              {post.date ? new Date(post.date).toLocaleDateString() : "N/A"}
             </p>
           </div>
         ))}
