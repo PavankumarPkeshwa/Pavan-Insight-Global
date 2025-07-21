@@ -1,6 +1,6 @@
 const Post = require("../models/Post");
 
-// GET /api/posts
+// GET all posts
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 });
@@ -10,7 +10,17 @@ const getPosts = async (req, res) => {
   }
 };
 
-// POST /api/posts
+// GET latest 3 posts for slider
+const getSliderPosts = async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ date: -1 }).limit(3);
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching slider posts", error });
+  }
+};
+
+// POST a new post
 const createPost = async (req, res) => {
   try {
     const newPost = new Post(req.body);
@@ -21,4 +31,4 @@ const createPost = async (req, res) => {
   }
 };
 
-module.exports = { getPosts, createPost };
+module.exports = { getPosts, createPost, getSliderPosts };
