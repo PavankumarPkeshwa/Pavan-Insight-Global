@@ -16,10 +16,8 @@ const App: React.FC = () => {
         <Route path="/" element={
             <div>
               <PostSlider />
-              <div className="container mx-auto flex gap-4 py-6 px-4">
-                <div className="w-3/4">
+              <div className="max-w-7xl mx-auto px-4 py-6">
                   <RecentPosts />
-                </div>
               </div>
             </div>
           }
