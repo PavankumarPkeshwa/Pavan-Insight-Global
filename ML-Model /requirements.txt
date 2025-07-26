@@ -1,3 +1,6 @@
 transformers
 flask
 torch
+feedparser
+newspaper3k
+lxml[html_clean]
