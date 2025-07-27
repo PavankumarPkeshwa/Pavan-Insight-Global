@@ -1,58 +1,89 @@
-import React from "react";
+import { Link } from "wouter";
+import { categories } from "@shared/schema";
 
-const Footer: React.FC = () => {
+export default function Footer() {
   return (
-    <footer className="bg-black text-white py-8">
-      <div className="container mx-auto grid grid-cols-3 gap-4 px-4">
-        {/* About */}
-        <div>
-          <h3 className="text-lg font-bold">TrendingNews</h3>
-          <p className="text-sm mt-2">
-            Welcome to TrendingNews, your trusted source for the latest news.
-          </p>
-          <p className="text-sm mt-2">
-            <i className="mr-2">📞</i> 0987654321
-          </p>
-          <p className="text-sm">
-            <i className="mr-2">✉️</i> pavankumarp@gmail.com
-          </p>
+    <footer className="bg-white border-t">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid md:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div className="md:col-span-1">
+            <Link href="/">
+              <div className="flex items-center space-x-2 mb-4 cursor-pointer group">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">P</span>
+                </div>
+                <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Pavan-Insight-Global
+                </h3>
+              </div>
+            </Link>
+            <p className="text-gray-600 text-sm mb-4">
+              Your trusted source for the latest news and insights across technology, lifestyle, sports, fitness, food, and travel. Delivering quality journalism and expert analysis.
+            </p>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                <i className="fab fa-twitter text-lg"></i>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                <i className="fab fa-facebook text-lg"></i>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                <i className="fab fa-instagram text-lg"></i>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                <i className="fab fa-linkedin text-lg"></i>
+              </a>
+            </div>
+          </div>
+
+          {/* Categories */}
+          <div>
+            <h4 className="font-semibold mb-4">Categories</h4>
+            <ul className="space-y-2 text-sm">
+              {categories.map((category) => (
+                <li key={category}>
+                  <Link href={`/category/${category.toLowerCase()}`} className="text-gray-600 hover:text-blue-600 transition-colors">
+                    {category}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="font-semibold mb-4">Company</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">About Us</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Our Team</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Careers</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Advertise</a></li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="font-semibold mb-4">Legal</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Terms of Service</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Cookie Policy</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">GDPR</a></li>
+            </ul>
+          </div>
         </div>
 
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-lg font-bold">Quick Links</h3>
-          <ul className="mt-2">
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Blog</li>
-            <li>Privacy</li>
-            <li>Terms</li>
-          </ul>
-        </div>
-
-        {/* Contact Us */}
-        <div>
-          <h3 className="text-lg font-bold">Contact Us</h3>
-          <input
-            type="text"
-            placeholder="Enter your email..."
-            className="w-full p-2 border rounded-md mb-2"
-          />
-          <textarea
-            placeholder="Your message..."
-            className="w-full p-2 border rounded-md mb-2"
-          ></textarea>
-          <button className="px-4 py-2 text-white bg-teal-400 rounded-md hover:bg-teal-500">
-            Send
-          </button>
+        <div className="border-t pt-8 mt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-600 text-sm">© 2024 Pavan-Insight-Global. All rights reserved.</p>
+            <div className="flex items-center space-x-6 mt-4 md:mt-0">
+              <span className="text-xs text-gray-500">Made with ❤️ for readers worldwide</span>
+            </div>
+          </div>
         </div>
       </div>
-      <p className="text-center mt-4 text-sm">
-        © Pavan Kumar P. All rights reserved.
-      </p>
     </footer>
   );
-};
-
-export default Footer;
+}

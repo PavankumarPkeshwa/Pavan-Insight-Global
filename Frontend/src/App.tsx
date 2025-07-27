@@ -1,35 +1,33 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Header from './Components/Header'
-import Footer from './Components/Footer'
-import PostSlider from './Components/PostSlider'
-import RecentPosts from './Components/RecentPosts'
-import ArticlePage from './Pages/ArticlePage'
-import Admin from './Pages/Admin'
+import { Switch, Route } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import NotFound from "@/pages/not-found";
+import Home from "@/pages/home";
+import CategoryPage from "@/pages/category";
+import ArticlePage from "@/pages/article";
 
-const App: React.FC = () => {
+function Router() {
   return (
-    <div className="bg-gray-50">
-      <Header />
-      {/* HomePage Section */}
-      <Routes>
-        <Route path="/" element={
-            <div>
-              <PostSlider />
-              <div className="max-w-7xl mx-auto px-4 py-6">
-                  <RecentPosts />
-              </div>
-            </div>
-          }
-        />
-          {/* Articles Section */}
-        <Route path="/article/:id" element={<ArticlePage />} />
-        {/* Admin Section */}
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
-      <Footer />
-    </div>
-  )
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/category/:category" component={CategoryPage} />
+      <Route path="/article/:id" component={ArticlePage} />
+      <Route component={NotFound} />
+    </Switch>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Router />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
