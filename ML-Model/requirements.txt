@@ -1,6 +1,7 @@
-transformers
-flask
-torch
-feedparser
-newspaper3k
-lxml[html_clean]
+apscheduler
+fastapi
+scikit-learn
+joblib
+pydantic
+uvicorn
+pandas
