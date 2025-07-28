@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import CategoryPage from "@/pages/category";
 import ArticlePage from "@/pages/article";
+import AdminPage from "@/pages/admin";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/category/:category" component={CategoryPage} />
       <Route path="/article/:id" component={ArticlePage} />
       <Route component={NotFound} />
+      <Route path="/admin" component={AdminPage} />
     </Switch>
   );
 }
