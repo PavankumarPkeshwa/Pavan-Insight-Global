@@ -34,47 +34,44 @@ export default function AdminPage() {
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
-  const scrapeMutation = useMutation({
-    mutationFn: () => api.request<{ message: string }>("/api/admin/scrape"),
-    onSuccess: (data) => {
-      toast({
-        title: "Success",
-        description: data.message,
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/status"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/articles"] });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to scrape news",
-        variant: "destructive",
-      });
-    },
-  });
+ const scrapeMutation = useMutation<{ message: string }, Error>({
+  mutationFn: api.scrapeNews,
+  onSuccess: (data) => {
+    toast({
+      title: "Success",
+      description: data.message,
+    });
+    queryClient.invalidateQueries({ queryKey: ["/api/admin/status"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/articles"] });
+  },
+  onError: (error) => {
+    toast({
+      title: "Error",
+      description: error.message || "Failed to scrape news",
+      variant: "destructive",
+    });
+  },
+});
 
-  const cleanupMutation = useMutation({
-    mutationFn: (days: number) => 
-      api.request<{ message: string }>("/api/admin/cleanup", {
-        method: "POST",
-        body: JSON.stringify({ days }),
-        headers: { "Content-Type": "application/json" },
-      }),
-    onSuccess: (data) => {
-      toast({
-        title: "Success",
-        description: data.message,
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/status"] });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to cleanup articles",
-        variant: "destructive",
-      });
-    },
-  });
+
+const cleanupMutation = useMutation<{ message: string }, Error, number>({
+  mutationFn: api.cleanupArticles,
+  onSuccess: (data) => {
+    toast({
+      title: "Success",
+      description: data.message,
+    });
+    queryClient.invalidateQueries({ queryKey: ["/api/admin/status"] });
+  },
+  onError: (error) => {
+    toast({
+      title: "Error",
+      description: error.message || "Failed to cleanup articles",
+      variant: "destructive",
+    });
+  },
+});
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();

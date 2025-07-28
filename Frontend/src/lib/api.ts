@@ -1,14 +1,16 @@
 import { apiRequest } from "./queryClient";
 import type { Article, Category } from "@shared/schema";
 
+// API Layer
 export const api = {
-  // Articles
+  // ─── Article APIs ─────────────────────────────────────
+  
   getArticles: async (category?: Category, limit?: number, offset?: number): Promise<Article[]> => {
     const params = new URLSearchParams();
     if (category) params.append("category", category);
     if (limit) params.append("limit", limit.toString());
     if (offset) params.append("offset", offset.toString());
-    
+
     const response = await apiRequest("GET", `/api/articles?${params.toString()}`);
     return response.json();
   },
@@ -26,7 +28,7 @@ export const api = {
   getTrendingArticles: async (limit?: number): Promise<Article[]> => {
     const params = new URLSearchParams();
     if (limit) params.append("limit", limit.toString());
-    
+
     const response = await apiRequest("GET", `/api/trending?${params.toString()}`);
     return response.json();
   },
@@ -39,6 +41,41 @@ export const api = {
 
   subscribeNewsletter: async (email: string): Promise<{ message: string }> => {
     const response = await apiRequest("POST", "/api/newsletter", { email });
+    return response.json();
+  },
+
+  // ─── Admin APIs ──────────────────────────────────────
+
+  getAdminStatus: async (): Promise<{
+    scheduler: {
+      isRunning: boolean;
+      nextRun: string;
+      lastRun: string;
+    };
+    database: {
+      totalArticles: number;
+      categoryCounts: Array<{
+        _id: string;
+        count: number;
+        avgLikes: number;
+      }>;
+      lastUpdated: string;
+    };
+    timestamp: string;
+  }> => {
+    const response = await apiRequest("GET", "/api/admin/status");
+    return response.json();
+  },
+
+  scrapeNews: async (): Promise<{ message: string }> => {
+    const response = await apiRequest("POST", "/api/admin/scrape");
+    return response.json();
+  },
+
+  cleanupArticles: async (days: number): Promise<{ message: string }> => {
+    const response = await apiRequest("POST", "/api/admin/cleanup", {
+      days,
+    });
     return response.json();
   },
 };
