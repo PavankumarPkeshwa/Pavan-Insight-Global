@@ -6,3 +6,4 @@ pydantic
 uvicorn
 pandas
 feedparser
+pymongo
