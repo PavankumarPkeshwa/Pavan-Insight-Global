@@ -5,5 +5,5 @@ MONGO_URI = "mongodb+srv://cluster0.rfawquf.mongodb.net/?retryWrites=true&w=majo
 
 # Connect to MongoDB
 client = MongoClient(MONGO_URI)
-db = client["PavanInsightGlobal"]  # Database name
-collection = db["articles"]  # Collection name
+db = client[""]  # Database name
+collection = db[""]  # Collection name
